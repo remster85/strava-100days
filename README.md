@@ -1,7 +1,7 @@
 # strava-100days
 Repository to work on a challenge to play around with the strava api
 
-Project #1
+## Project #1  
 The first project is to build a data visualization of running activities.  
 It could highlight that the runner is a week day morning kind of runner but an evening week-end kind of runner.  
 Ultimately, we can also generate a label on this runner.  
