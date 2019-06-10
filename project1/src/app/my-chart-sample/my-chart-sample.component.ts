@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import { DataService } from "./../data.service";
 
 @Component({
   selector: 'app-my-chart-sample',
@@ -10,13 +11,9 @@ import * as Highcharts from 'highcharts';
 
 export class MyChartSampleComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
-     
-  }
-
   Highcharts: typeof Highcharts = Highcharts;
+  chart;
+  chartCallback;
   chartOptions: Highcharts.Options = {
    title: {
       text: 'Number of runs per day of the week'
@@ -24,18 +21,27 @@ export class MyChartSampleComponent implements OnInit {
    tooltip: {
       pointFormat: 'Number of runs on {point.name} : {point.y}'
   },
-    series: [{
-      data: [
-         {name: 'Monday', y:1}, 
-         {name: 'Tuesday', y:1},
-         {name: 'Wednesday', y:1},
-         {name: 'Thursday', y:1},
-         {name: 'Friday', y:1},
-         {name: 'Saturday', y:1},
-         {name: 'Sunday', y:1}      
-      ],
-      type: 'pie'
-    }]
   };
 
-}
+  constructor(private dataService: DataService) { 
+      const self = this;
+      this.chartCallback = chart => {
+         self.chart = chart;
+      };
+  }
+
+  updateData(data : Array<number>){
+
+   this.chartOptions.series = [
+      {
+        data: data,
+        type: "pie",
+      }
+    ];
+ }
+
+  ngOnInit() {
+     this.updateData(this.dataService.getChartData());
+   };
+ }
+
