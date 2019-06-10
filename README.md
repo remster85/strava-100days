@@ -8,3 +8,5 @@ Ultimately, we can also generate a label on this runner.
 A heatmap looks appropriate.  
 
 I know for instance that I run on week-ends exclusively in the morning. I mostly workout on tuesday evenings with my club Adobo AC. I mostly race in the morning.
+
+Follow the logs [here](https://github.com/remster85/strava-100days/wiki/100-days-challenge-log)
