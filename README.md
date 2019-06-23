@@ -1,10 +1,12 @@
 # strava-100days
-Repository to work on a challenge to play around with the strava api
+My 100 days of code challenge around the strava api
 
 ## Project #1  
-The first project is to build a data visualization of running activities.  
-It could highlight that the runner is a week day morning kind of runner but an evening week-end kind of runner.  
-Ultimately, we can also generate a label on this runner.  
+The first project is to build data visualizations of running activities and learning about the microsoft azure cloud, practicing angular and using the strava api.
+
+I have a few ideas to start with:
+- See a breakdown of runs per day, per hour -> We could attempt to label the runner.
+- Link a training plan with actual activity.
 
 I know for instance that I run on week-ends exclusively in the morning. I mostly workout on tuesday evenings with my club Adobo AC. I mostly race in the morning.
 
