@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { DataService } from "./../data.service";
+import {HttpClientModule, HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-my-chart-sample',
@@ -12,7 +13,6 @@ import { DataService } from "./../data.service";
 export class MyChartSampleComponent implements OnInit {
 
   Highcharts: typeof Highcharts = Highcharts;
-  chart;
   chartCallback;
   chartOptions: Highcharts.Options = {
    title: {
@@ -23,25 +23,71 @@ export class MyChartSampleComponent implements OnInit {
   },
   };
 
-  constructor(private dataService: DataService) { 
-      const self = this;
-      this.chartCallback = chart => {
-         self.chart = chart;
-      };
-  }
+  constructor(private dataService: DataService, private http: HttpClient) {}
 
-  updateData(data : Array<number>){
+  ngOnInit() {
 
-   this.chartOptions.series = [
+    this.chartOptions.series = [
       {
-        data: data,
+        data: [0,0,0,0,0,0,0],
         type: "pie",
       }
     ];
- }
 
-  ngOnInit() {
-     this.updateData(this.dataService.getChartData());
+    this.http.get('https://testrems.azurewebsites.net/api/HttpTrigger')
+        .subscribe((res:any) => 
+        {
+        
+            let start_dates = res.map(x => this.getDay(x.start_date_local));
+
+            console.log(start_dates);
+
+            let mondays = start_dates.filter(x => x == "Monday").length;
+            let tuesdays = start_dates.filter(x => x == "Tuesday").length;
+            let wednesdays = start_dates.filter(x => x == "Wednesday").length;
+            let thursdays = start_dates.filter(x => x == "Thursday").length;
+            let fridays = start_dates.filter(x => x == "Friday").length;
+            let saturdays = start_dates.filter(x => x == "Saturday").length;
+            let sundays = start_dates.filter(x => x == "Sunday").length;
+
+            this.updateData([
+
+              {name: 'Monday', y:mondays}, 
+              {name: 'Tuesday', y:tuesdays},
+              {name: 'Wednesday', y:wednesdays},
+              {name: 'Thursday', y:thursdays},
+              {name: 'Friday', y:fridays},
+              {name: 'Saturday', y:saturdays},
+              {name: 'Sunday', y:sundays}      
+          ]);
+        });
+
+     
    };
+
+   getWeekDay(date){
+    //Create an array containing each day, starting with Sunday.
+    var weekdays = new Array(
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    );
+    //Use the getDay() method to get the day.
+    var day = date.getDay();
+    //Return the element that corresponds to that index.
+    return weekdays[day];
+}
+
+  private getDay(dt : string) : string {
+    var date = new Date(dt);
+    return this.getWeekDay(date);
+  }
+
+
+   updateData(data : any){  
+      Highcharts.charts[0].series[0].setData(data);
+   }
+
+   updateChart(){
+    Highcharts.charts[0].series[0].setData([1,2,3,4,5,6,7]);
+   }
  }
 

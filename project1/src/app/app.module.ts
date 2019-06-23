@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MyChartSampleComponent } from './my-chart-sample/my-chart-sample.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { MyChartSampleComponent } from './my-chart-sample/my-chart-sample.compon
   ],
   imports: [
     BrowserModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
