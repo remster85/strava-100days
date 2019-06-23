@@ -34,7 +34,7 @@ export class MyChartSampleComponent implements OnInit {
       }
     ];
 
-    this.http.get('https://testrems.azurewebsites.net/api/HttpTrigger')
+    this.http.get('https://stravaactivities.azurewebsites.net/api/ActivitiesSample')
         .subscribe((res:any) => 
         {
         

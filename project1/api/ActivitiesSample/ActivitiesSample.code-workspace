@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "C:\\Users\\remid\\OneDrive\\Documents\\GitHub\\1\\strava-100days\\project1\\api"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen",
+		"python.pythonPath": ".env\\Scripts\\python.exe"
+	}
+}
