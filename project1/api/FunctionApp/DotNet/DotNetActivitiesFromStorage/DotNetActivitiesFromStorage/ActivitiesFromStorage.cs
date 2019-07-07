@@ -15,6 +15,9 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System.Threading.Tasks;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetActivitiesFromStorage
 {
@@ -26,6 +29,8 @@ namespace DotNetActivitiesFromStorage
             ILogger log)
         {
 
+            var activities = new StringBuilder();
+
             CloudStorageAccount storageAccount = new CloudStorageAccount(
                new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(
                "remsstravaactivities", "FLZLc8w/ixYcfulAU8rMGRsYoYk7hK5TG3PHHbypAsPhLpASiEwYqcrTLu80xBihCYRZCNhzxA1tUlppOyOu1g=="), true);
@@ -36,12 +41,41 @@ namespace DotNetActivitiesFromStorage
             // Get a reference to a container named "mycontainer."
             CloudBlobContainer container = blobClient.GetContainerReference("activities");
 
-            // Get a reference to a blob named "photo1.jpg".
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference("remi");
+            BlobContinuationToken token = null;
+            do
+            {
+                BlobResultSegment resultSegment = await container.ListBlobsSegmentedAsync(token);
+                token = resultSegment.ContinuationToken;
 
-            var activities = await blockBlob.DownloadTextAsync();
+                foreach (IListBlobItem item in resultSegment.Results)
+                {
+                    if (item.GetType() == typeof(CloudBlockBlob))
+                    {
+                        CloudBlockBlob blob = (CloudBlockBlob)item;
+                        Console.WriteLine("Block blob of length {0}: {1}", blob.Properties.Length, blob.Uri);
+                        var blobContent = await blob.DownloadTextAsync();
+                        activities.Append(blobContent.Substring(2, blobContent.Length - 3) + ",");
 
-            return (ActionResult)new OkObjectResult(activities);
+                    }
+
+                    else if (item.GetType() == typeof(CloudPageBlob))
+                    {
+                        CloudPageBlob pageBlob = (CloudPageBlob)item;
+
+                        Console.WriteLine("Page blob of length {0}: {1}", pageBlob.Properties.Length, pageBlob.Uri);
+                    }
+
+                    else if (item.GetType() == typeof(CloudBlobDirectory))
+                    {
+                        CloudBlobDirectory directory = (CloudBlobDirectory)item;
+
+                        Console.WriteLine("Directory: {0}", directory.Uri);
+                    }
+                }
+            } while (token != null);
+
+
+            return (ActionResult)new OkObjectResult("[" + activities.ToString().Substring(0, activities.ToString().Length - 2) + "}]");
 
         }
     }
