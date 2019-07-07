@@ -33,7 +33,7 @@ namespace DotNetActivitiesFromStorage
 
             CloudStorageAccount storageAccount = new CloudStorageAccount(
                new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(
-               "remsstravaactivities", "FLZLc8w/ixYcfulAU8rMGRsYoYk7hK5TG3PHHbypAsPhLpASiEwYqcrTLu80xBihCYRZCNhzxA1tUlppOyOu1g=="), true);
+               "remsstravaactivities", "askme"), true);
 
             // Create a blob client.
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
