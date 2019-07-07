@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import { DataService } from "./../data.service";
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 
 @Component({
@@ -11,6 +10,8 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 
 
 export class MyChartSampleComponent implements OnInit {
+  isChartLoading = true;
+  show = false;
 
   Highcharts: typeof Highcharts = Highcharts;
   chartCallback;
@@ -23,7 +24,7 @@ export class MyChartSampleComponent implements OnInit {
   },
   };
 
-  constructor(private dataService: DataService, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
 
@@ -34,13 +35,13 @@ export class MyChartSampleComponent implements OnInit {
       }
     ];
 
-    this.http.get('https://stravaactivities.azurewebsites.net/api/ActivitiesSample')
+    this.isChartLoading = true;
+    //https://stravaactivities.azurewebsites.net/api/ActivitiesSample
+    this.http.get('https://remstravaactivities.azurewebsites.net/api/ActivitiesFromStorage')
         .subscribe((res:any) => 
         {
         
             let start_dates = res.map(x => this.getDay(x.start_date_local));
-
-            console.log(start_dates);
 
             let mondays = start_dates.filter(x => x == "Monday").length;
             let tuesdays = start_dates.filter(x => x == "Tuesday").length;
@@ -50,6 +51,7 @@ export class MyChartSampleComponent implements OnInit {
             let saturdays = start_dates.filter(x => x == "Saturday").length;
             let sundays = start_dates.filter(x => x == "Sunday").length;
 
+            this.isChartLoading = false;
             this.updateData([
 
               {name: 'Monday', y:mondays}, 
@@ -60,6 +62,8 @@ export class MyChartSampleComponent implements OnInit {
               {name: 'Saturday', y:saturdays},
               {name: 'Sunday', y:sundays}      
           ]);
+
+         
         });
 
      
@@ -83,11 +87,50 @@ export class MyChartSampleComponent implements OnInit {
 
 
    updateData(data : any){  
+      this.isChartLoading = false;
       Highcharts.charts[0].series[0].setData(data);
    }
 
-   updateChart(){
+   updateChartWithFakeData(){
     Highcharts.charts[0].series[0].setData([1,2,3,4,5,6,7]);
+   }
+
+   updateChartWithStaticApi(){
+
+    this.isChartLoading = true;
+
+
+     this.http.get('https://remstravaactivities.azurewebsites.net/api/ActivitiesFromStorage')
+        .subscribe((res:any) => 
+        {
+        
+            let start_dates = res.map(x => this.getDay(x.start_date_local));
+
+            console.log(start_dates);
+
+            let mondays = start_dates.filter(x => x == "Monday").length;
+            let tuesdays = start_dates.filter(x => x == "Tuesday").length;
+            let wednesdays = start_dates.filter(x => x == "Wednesday").length;
+            let thursdays = start_dates.filter(x => x == "Thursday").length;
+            let fridays = start_dates.filter(x => x == "Friday").length;
+            let saturdays = start_dates.filter(x => x == "Saturday").length;
+            let sundays = start_dates.filter(x => x == "Sunday").length;
+
+         
+            this.isChartLoading = false;
+            
+            this.updateData([
+
+              {name: 'Monday', y:mondays}, 
+              {name: 'Tuesday', y:tuesdays},
+              {name: 'Wednesday', y:wednesdays},
+              {name: 'Thursday', y:thursdays},
+              {name: 'Friday', y:fridays},
+              {name: 'Saturday', y:saturdays},
+              {name: 'Sunday', y:sundays}      
+          ]);
+        
+        });
    }
  }
 

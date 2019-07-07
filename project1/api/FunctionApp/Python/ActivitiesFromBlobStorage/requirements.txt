@@ -1,0 +1,2 @@
+azure-storage-blob==1.5.0
+azure==4.0.0
