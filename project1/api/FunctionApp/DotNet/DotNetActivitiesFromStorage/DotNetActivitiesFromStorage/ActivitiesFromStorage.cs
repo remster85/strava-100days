@@ -1,23 +1,17 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Microsoft.WindowsAzure.Storage.Blob;
-
-using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System.Threading.Tasks;
-using LogLevel = Microsoft.Extensions.Logging.LogLevel;
-using System.Reflection;
-using Newtonsoft.Json.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Mvc;
+using QuickType;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace DotNetActivitiesFromStorage
 {
@@ -29,11 +23,11 @@ namespace DotNetActivitiesFromStorage
             ILogger log)
         {
 
-            var activities = new StringBuilder();
+            var activitiesBuilder = new StringBuilder();
 
             CloudStorageAccount storageAccount = new CloudStorageAccount(
                new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(
-               "remsstravaactivities", "FLZLc8w/ixYcfulAU8rMGRsYoYk7hK5TG3PHHbypAsPhLpASiEwYqcrTLu80xBihCYRZCNhzxA1tUlppOyOu1g=="), true);
+               "remsstravaactivities", "HYwmb2YR15lZemFQgy0FgLEkaII2z8xdJpzytyNJbiwi5NXc325ywEhmzDHxyMpikqY9YW+8GUafqsXgF9GHNg=="), true);
 
             // Create a blob client.
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
@@ -54,7 +48,7 @@ namespace DotNetActivitiesFromStorage
                         CloudBlockBlob blob = (CloudBlockBlob)item;
                         Console.WriteLine("Block blob of length {0}: {1}", blob.Properties.Length, blob.Uri);
                         var blobContent = await blob.DownloadTextAsync();
-                        activities.Append(blobContent.Substring(2, blobContent.Length - 3) + ",");
+                        activitiesBuilder.Append(blobContent.Substring(2, blobContent.Length - 3) + ",");
 
                     }
 
@@ -75,7 +69,16 @@ namespace DotNetActivitiesFromStorage
             } while (token != null);
 
 
-            return (ActionResult)new OkObjectResult("[" + activities.ToString().Substring(0, activities.ToString().Length - 2) + "}]");
+            var jsonString = "[" + activitiesBuilder.ToString().Substring(0, activitiesBuilder.ToString().Length - 2) + "}]";
+
+            var activities = JsonConvert.DeserializeObject<List<RunModel>>(jsonString);
+
+            var jsonOutput = JsonConvert.SerializeObject(activities.Select(x => new
+            {
+                start_date_local = x.StartDateLocal
+            }));
+
+            return new OkObjectResult(jsonOutput);
 
         }
     }
