@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
-  selector: 'app-my-chart-sample',
-  templateUrl: './my-chart-sample.component.html',
-  styleUrls: ['./my-chart-sample.component.css']
+  selector: 'app-activities-weekday-piechart',
+  templateUrl: './activities-weekday-piechart.component.html',
+  styleUrls: ['./activities-weekday-piechart.component.css']
 })
 
 
-export class MyChartSampleComponent implements OnInit {
+export class ActivitiesPerWeekDayComponent implements OnInit {
 
   activitiesUrl = "https://remstravaactivities.azurewebsites.net/api/ActivitiesFromStorage";
 
