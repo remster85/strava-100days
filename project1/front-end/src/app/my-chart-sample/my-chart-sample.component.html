@@ -1,16 +1,21 @@
-<p>
+<div>
 
-  
-  
-  <img class="spinner" *ngIf="isChartLoading==true" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+<div align="center">
+<button type="button" class="btn btn-primary" (click)="updateChartWithFakeData()">Fake Data</button> &nbsp;
+<button type="button" class="btn btn-primary" (click)="updateChartWithStaticApi()">Real Data</button>
+</div>
 
+<br/>
 
-  <highcharts-chart [hidden]="isChartLoading==true"
+<img class="spinner" *ngIf="isChartLoading==true" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+
+<highcharts-chart [hidden]="isChartLoading==true"
   [Highcharts]="Highcharts"
-  [options]="chartOptions"
+  [options]="pieChartOptions"
   style="width: 100%; height: 400px; display: block;"
 ></highcharts-chart>
 
-<button (click)="updateChartWithFakeData()">Fake Update</button> 
-<button (click)="updateChartWithStaticApi()">Static Data</button>
-</p>
+
+</div>
+
+

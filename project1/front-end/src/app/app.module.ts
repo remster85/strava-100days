@@ -6,6 +6,10 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { MyChartSampleComponent } from './my-chart-sample/my-chart-sample.component';
 import {HttpClientModule} from '@angular/common/http';
 
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,7 +18,10 @@ import {HttpClientModule} from '@angular/common/http';
   imports: [
     BrowserModule,
     HighchartsChartModule,
-    HttpClientModule
+    HttpClientModule,
+    BsDropdownModule.forRoot(),
+    TooltipModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
