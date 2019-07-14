@@ -1,3 +1,5 @@
+
+
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +14,7 @@ using QuickType;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace DotNetActivitiesFromStorage
 {
@@ -20,13 +23,23 @@ namespace DotNetActivitiesFromStorage
         [FunctionName("ActivitiesFromStorage")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-            ILogger log)
+            ILogger log, ExecutionContext context)
         {
+
+            var config = new ConfigurationBuilder()
+             .SetBasePath(context.FunctionAppDirectory)
+             .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+             .AddEnvironmentVariables()
+             .Build();
+
+            var stravaStoragePassword = config["StravaStoragePassword"];
+
+            log.LogInformation(stravaStoragePassword);
 
             var activitiesBuilder = new StringBuilder();
 
             CloudStorageAccount storageAccount = new CloudStorageAccount(
-               new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials("remsstravaactivities", "askme"), true);
+               new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials("remsstravaactivities", stravaStoragePassword), true);
 
             // Create a blob client.
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
