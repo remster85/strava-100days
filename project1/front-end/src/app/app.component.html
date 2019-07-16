@@ -7,7 +7,12 @@
 
 <br/>
 
+<div align="center">
+  <button type="button" class="btn btn-primary" (click)="isWeekday=true">Activities per Weekday</button> &nbsp;
+  <button type="button" class="btn btn-primary" (click)="isWeekday=false">Activities per Hour</button>
+</div>
+
 <div style="text-align:center">
-<app-activities-weekday-piechart></app-activities-weekday-piechart>
-<app-activities-hour-histogram></app-activities-hour-histogram>
+<app-activities-weekday-piechart *ngIf="isWeekday==true"></app-activities-weekday-piechart>
+<app-activities-hour-histogram *ngIf="isWeekday!=true"></app-activities-hour-histogram>
 </div>

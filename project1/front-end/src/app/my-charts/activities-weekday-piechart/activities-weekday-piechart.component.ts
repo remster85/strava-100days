@@ -17,7 +17,7 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
   show = false;
 
   Highcharts: typeof Highcharts = Highcharts;
-  chartCallback;
+  
   pieChartOptions: Highcharts.Options = {
    title: {
       text: 'Number of runs per weekday'
@@ -35,6 +35,7 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
       {
         data: [0,0,0,0,0,0,0],
         type: "pie",
+        id : 'weekday'
       }
     ];
 
@@ -48,6 +49,13 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
 
      
    };
+
+   chartCallback(){
+      console.log('chart called back');
+      Highcharts.charts.forEach(element => {
+          console.log(element);
+      });
+   }
 
    getPieChartData(res:any){
     let start_dates = res.map(x => this.getDay(x.start_date_local));
@@ -90,24 +98,13 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
 
    updateData(data : any){  
       this.isChartLoading = false;
-      Highcharts.charts[0].series[0].setData(data);
+      //get first chart defined
+      Highcharts.charts.forEach(element => {
+        if(element != undefined){
+          element.series[0].setData(data);
+        }
+      });      
    }
 
-   updateChartWithFakeData(){
-    Highcharts.charts[0].series[0].setData([1,2,3,4,5,6,7]);
-   }
-
-   updateChartWithStaticApi(){
-
-    this.isChartLoading = true;
-
-
-     this.http.get(this.activitiesUrl)
-        .subscribe((res:any) => 
-        {
-            this.isChartLoading = false;   
-            this.updateData(this.getPieChartData(res));
-        });
-   }
  }
 

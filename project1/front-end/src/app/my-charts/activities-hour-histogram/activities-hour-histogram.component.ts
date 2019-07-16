@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
 import {HttpClient} from '@angular/common/http';
 
@@ -19,13 +18,17 @@ export class ActivitiesHourHistogramComponent implements OnInit {
 
   Highcharts2: typeof Highcharts = Highcharts;
   chartCallback;
-  pieChartOptions: Highcharts.Options = {
+  barChartOptions: Highcharts.Options = {
    title: {
       text: 'Number of runs per hours'
    },
    tooltip: {
       pointFormat: 'Number of runs at {point.name} : {point.y}'
   },
+  legend: {
+    enabled: false
+  }
+  
   };
 
   constructor(private http: HttpClient) { 
@@ -35,10 +38,10 @@ export class ActivitiesHourHistogramComponent implements OnInit {
   
   ngOnInit() {
 
-    this.pieChartOptions.series = [
+    this.barChartOptions.series = [
       {
         data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        type: "bar",
+        type: "column",
       }
     ];
 
@@ -121,7 +124,11 @@ export class ActivitiesHourHistogramComponent implements OnInit {
 
   updateData(data : any){  
     this.isChartLoading = false;
-    this.Highcharts2.charts[1].series[0].setData(data);
+    this.Highcharts2.charts.forEach(element => {
+      if(element != undefined){
+        element.series[0].setData(data);
+      }
+    });
  }
 
 }
