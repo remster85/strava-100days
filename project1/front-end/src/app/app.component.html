@@ -8,11 +8,14 @@
 <br/>
 
 <div align="center">
-  <button type="button" class="btn btn-primary" (click)="isWeekday=true">Activities per Weekday</button> &nbsp;
-  <button type="button" class="btn btn-primary" (click)="isWeekday=false">Activities per Hour</button>
+  <button type="button" class="btn btn-primary" (click)="view=1">Activities per Weekday</button> &nbsp;
+  <button type="button" class="btn btn-primary" (click)="view=2">Activities per Hour</button> &nbsp;
+  <button type="button" class="btn btn-danger" (click)="view=3">Chatbot</button>
 </div>
 
+<br/>
 <div style="text-align:center">
-<app-activities-weekday-piechart *ngIf="isWeekday==true"></app-activities-weekday-piechart>
-<app-activities-hour-histogram *ngIf="isWeekday!=true"></app-activities-hour-histogram>
+<app-activities-weekday-piechart *ngIf="view==1"></app-activities-weekday-piechart>
+<app-activities-hour-histogram *ngIf="view==2"></app-activities-hour-histogram>
+<app-chatbot *ngIf="view==3"></app-chatbot>
 </div>

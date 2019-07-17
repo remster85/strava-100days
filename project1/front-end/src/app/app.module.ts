@@ -12,6 +12,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { ActivitiesHourHistogramComponent } from './my-charts/activities-hour-histogram/activities-hour-histogram.component';
 import { ActivitiesPerWeekDayComponent } from './my-charts/activities-weekday-piechart/activities-weekday-piechart.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ActivitiesPerWeekDayComponent } from './my-charts/activities-weekday-pi
     AppComponent,
     ActivitiesPerWeekDayComponent,
     ActivitiesHourHistogramComponent,
+    ChatbotComponent,
   ],
   imports: [
     BrowserModule,
