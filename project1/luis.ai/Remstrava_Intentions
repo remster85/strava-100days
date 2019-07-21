@@ -1,0 +1,48 @@
+{
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "Remstrava Intentions",
+  "desc": "",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "intents": [
+    {
+      "name": "Mileage_Status"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "how many kms have i run the past month?",
+      "intent": "Mileage_Status",
+      "entities": []
+    },
+    {
+      "text": "how many miles have i run past 7 days?",
+      "intent": "Mileage_Status",
+      "entities": []
+    },
+    {
+      "text": "miles ran last 10 days",
+      "intent": "Mileage_Status",
+      "entities": []
+    }
+  ],
+  "settings": []
+}
