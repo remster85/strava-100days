@@ -20,7 +20,7 @@ export class ActivitiesHourHistogramComponent implements OnInit {
   chartCallback;
   barChartOptions: Highcharts.Options = {
    title: {
-      text: 'Number of runs per hours'
+      text: 'Number of runs per hour'
    },
    tooltip: {
       pointFormat: 'Number of runs at {point.name} : {point.y}'

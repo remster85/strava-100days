@@ -87,7 +87,8 @@ namespace DotNetActivitiesFromStorage
 
             var jsonOutput = JsonConvert.SerializeObject(activities.Select(x => new
             {
-                start_date_local = x.StartDateLocal
+                start_date_local = x.StartDateLocal,
+                distance = x.Distance
             }));
 
             return new OkObjectResult(jsonOutput);
