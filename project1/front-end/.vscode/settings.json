@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/79af5c19-f2da-4651-8acc-6d086f130874/resourceGroups/Pay-as-you-go/providers/Microsoft.Web/sites/Remstrava",
+    "appService.deploySubpath": "dist\\remistrava"
+}

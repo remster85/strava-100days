@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemStravaBot", "RemStravaBot\RemStravaBot.csproj", "{873AAF50-95B1-46A9-A99A-A839AB8C839C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{873AAF50-95B1-46A9-A99A-A839AB8C839C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{873AAF50-95B1-46A9-A99A-A839AB8C839C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{873AAF50-95B1-46A9-A99A-A839AB8C839C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{873AAF50-95B1-46A9-A99A-A839AB8C839C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B744084-A53E-4E88-A684-7AB0DD0695B4}
+	EndGlobalSection
+EndGlobal
