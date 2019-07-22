@@ -1,5 +1,8 @@
 # strava-100days
-My 100 days of code challenge around the strava api
+My 100 days of code challenge around the strava api  
+
+Visit http://remstrava.azurewebsites.net   :clap:
+
 
 ## Project #1  
 The first project is to build data visualizations of running activities and learning about the microsoft azure cloud, practicing angular and using the strava api.
