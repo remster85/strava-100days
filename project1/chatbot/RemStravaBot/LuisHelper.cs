@@ -16,15 +16,17 @@ using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using RemStravaBot.Models;
 
 namespace RemStravaBot
 {
     public static class LuisHelper
     {
-        public static async Task<string> ExecuteLuisQuery(IConfiguration configuration, ILogger logger, ITurnContext turnContext, CancellationToken cancellationToken)
+        public static async Task<DistanceInfo> ExecuteLuisQuery(IConfiguration configuration, ILogger logger, ITurnContext turnContext, CancellationToken cancellationToken)
         {
 
-            string responseFromServer = string.Empty;
+            DistanceInfo output = new DistanceInfo();
+
             try
             {
                 // Create the LUIS settings from configuration.
@@ -45,6 +47,7 @@ namespace RemStravaBot
 
                     // We need to get the result from the LUIS JSON which at every level returns an array.
                     var timex = recognizerResult.Entities["datetime"]?.FirstOrDefault()?["timex"]?.FirstOrDefault()?.ToString().Split('T')[0];
+                    var distanceUnit = recognizerResult.Entities["distance_unit"]?.FirstOrDefault()?.ToString();
 
                     var request = WebRequest.Create("https://getstravamileage20190721115651.azurewebsites.net/api/GetStravaMileage?timex=" + timex);
                     var response = request.GetResponse();
@@ -57,9 +60,17 @@ namespace RemStravaBot
                         StreamReader reader = new StreamReader(dataStream);
                         // Read the content.
 
-                        responseFromServer = reader.ReadToEnd();
+                        var responseFromServer = reader.ReadToEnd();
                         // Display the content.  
                         Console.WriteLine(responseFromServer);
+
+                        output.Distance = Math.Round(double.Parse((responseFromServer.Trim())) / 1000, 0);
+                        if (distanceUnit.ToUpper().Contains("MILE"))
+                        {
+                            output.Unit = DistanceUnit.MILES;
+                            output.Distance /= 1.6;
+
+                        }
 
                     }
                 }
@@ -69,7 +80,7 @@ namespace RemStravaBot
                 logger.LogWarning($"LUIS Exception: {e.Message} Check your LUIS configuration.");
             }
 
-            return responseFromServer;
+            return output;
         }
     }
 }

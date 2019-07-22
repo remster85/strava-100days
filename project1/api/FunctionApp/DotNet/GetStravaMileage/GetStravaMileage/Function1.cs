@@ -52,7 +52,7 @@ namespace GetStravaMileage
                 var totalDistance = jarray.Where(x => ((DateTime)((JValue)((JObject)x).GetValue("start_date_local")).Value).ToString("yyyy-MM-dd").StartsWith(timex)).Sum(x => double.Parse(((JValue)((JObject)x).GetValue("distance")).Value.ToString()));
 
                 return timex != null
-                    ? (ActionResult)new OkObjectResult($"Timex request {timex} => {totalDistance}")
+                    ? (ActionResult)new OkObjectResult($"{totalDistance}")
                     : new BadRequestObjectResult("Please pass a timex on the query string ?timex=");
             }
 
