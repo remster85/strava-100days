@@ -35,16 +35,11 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
         dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f}%'
-        },
-        point: {
-          events: {
-            select: this.onPointSelect.bind(this),
-          }
         }
     }
 }
   };
-  s
+  
 
   constructor(private http: HttpClient) {}
 
@@ -52,6 +47,7 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
 
     this.pieChartOptions.series = [
       {
+        cursor : 'pointer',
         data: [0,0,0,0,0,0,0],
         type: "pie",
         id : 'weekday'
@@ -63,7 +59,7 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
         .subscribe((res:any) => 
         {
           this.isChartLoading = false;
-          this.enrichDataWithWeekday(res);   
+          this.data = this.enrichDataWithWeekday(res);   
           this.updateData(this.getPieChartData(this.data));
         });
 
@@ -72,7 +68,6 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
 
   
   onPointSelect(event: any) {  
-    console.log(this.data.filter(x => x.weekday == event.target.name));
     this.selectedWeekdayActivities = this.data.filter(x => x.weekday == event.target.name);
     this.showActivitiesDetails = true;
   }
@@ -85,7 +80,7 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
   
    enrichDataWithWeekday(res : any){
       res.map(x => x['weekday'] =  this.getDay(x.start_date_local));
-      this.data = res;
+      return res;
    }
 
 

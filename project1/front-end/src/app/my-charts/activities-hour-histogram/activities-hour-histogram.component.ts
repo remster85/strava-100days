@@ -11,7 +11,10 @@ import { environment } from '../../../environments/environment';
 export class ActivitiesHourHistogramComponent implements OnInit {
 
   isChartLoading = true;
+  data : any[];
   show = false;
+  showActivitiesDetails : boolean = false;
+  selectedHourActivities: any[];
 
   Highcharts2: typeof Highcharts = Highcharts;
   chartCallback;
@@ -25,7 +28,6 @@ export class ActivitiesHourHistogramComponent implements OnInit {
   legend: {
     enabled: false
   }
-  
   };
 
   constructor(private http: HttpClient) { 
@@ -37,8 +39,14 @@ export class ActivitiesHourHistogramComponent implements OnInit {
 
     this.barChartOptions.series = [
       {
+        cursor : "pointer",
         data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         type: "column",
+        point: {
+          events: {
+            click: this.onPointSelect.bind(this),
+          }
+        }
       }
     ];
 
@@ -47,43 +55,56 @@ export class ActivitiesHourHistogramComponent implements OnInit {
         .subscribe((res:any) => 
         {
           this.isChartLoading = false;   
-          this.updateData(this.getPieChartData(res));
+          this.data = this.enrichDataWithHour(res); 
+          this.updateData(this.getPieChartData(this.data));
         });
 
 
   }
 
+  enrichDataWithHour(res : any){
+    console.log(res.map(x => x['hour'] =  this.getHour(x.start_date_local)));
+
+    res.map(x => x['hour'] =  this.getHour(x.start_date_local));
+
+     return res;
+ }
+
+  onPointSelect(event: any) { 
+    this.selectedHourActivities = this.data.filter(x => x.hour == event.point.category);
+    this.showActivitiesDetails = true;
+  }
+
   getPieChartData(res:any){
-    let start_hours = res.map(x => this.getHour(x.start_date_local));
+  
+    let hour00s = res.filter(x => x.hour == "00").length;
+    let hour01s = res.filter(x => x.hour == "01").length;
+    let hour02s = res.filter(x => x.hour == "02").length;
+    let hour03s = res.filter(x => x.hour == "03").length;
+    let hour04s = res.filter(x => x.hour == "04").length;
+    let hour05s = res.filter(x => x.hour == "05").length;
+    let hour06s = res.filter(x => x.hour == "06").length;
 
-    let hour00s = start_hours.filter(x => x == "00").length;
-    let hour01s = start_hours.filter(x => x == "01").length;
-    let hour02s = start_hours.filter(x => x == "02").length;
-    let hour03s = start_hours.filter(x => x == "03").length;
-    let hour04s = start_hours.filter(x => x == "04").length;
-    let hour05s = start_hours.filter(x => x == "05").length;
-    let hour06s = start_hours.filter(x => x == "06").length;
-
-    let hour07s = start_hours.filter(x => x == "07").length;
-    let hour08s = start_hours.filter(x => x == "08").length;
-    let hour09s = start_hours.filter(x => x == "09").length;
-    let hour10s = start_hours.filter(x => x == "10").length;
-    let hour11s = start_hours.filter(x => x == "11").length;
-    let hour12s = start_hours.filter(x => x == "12").length;
-    let hour13s = start_hours.filter(x => x == "13").length;
+    let hour07s = res.filter(x => x.hour == "07").length;
+    let hour08s = res.filter(x => x.hour == "08").length;
+    let hour09s = res.filter(x => x.hour == "09").length;
+    let hour10s = res.filter(x => x.hour == "10").length;
+    let hour11s = res.filter(x => x.hour == "11").length;
+    let hour12s = res.filter(x => x.hour == "12").length;
+    let hour13s = res.filter(x => x.hour == "13").length;
 
 
-    let hour14s = start_hours.filter(x => x == "14").length;
-    let hour15s = start_hours.filter(x => x == "15").length;
-    let hour16s = start_hours.filter(x => x == "16").length;
-    let hour17s = start_hours.filter(x => x == "17").length;
-    let hour18s = start_hours.filter(x => x == "18").length;
-    let hour19s = start_hours.filter(x => x == "19").length;
-    let hour20s = start_hours.filter(x => x == "20").length;
+    let hour14s = res.filter(x => x.hour == "14").length;
+    let hour15s = res.filter(x => x.hour == "15").length;
+    let hour16s = res.filter(x => x.hour == "16").length;
+    let hour17s = res.filter(x => x.hour == "17").length;
+    let hour18s = res.filter(x => x.hour == "18").length;
+    let hour19s = res.filter(x => x.hour == "19").length;
+    let hour20s = res.filter(x => x.hour == "20").length;
 
-    let hour21s = start_hours.filter(x => x == "21").length;
-    let hour22s = start_hours.filter(x => x == "22").length;
-    let hour23s = start_hours.filter(x => x == "23").length;
+    let hour21s = res.filter(x => x.hour == "21").length;
+    let hour22s = res.filter(x => x.hour == "22").length;
+    let hour23s = res.filter(x => x.hour == "23").length;
 
     return [
       {name: '00', y:hour00s}, 

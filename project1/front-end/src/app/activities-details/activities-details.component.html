@@ -8,7 +8,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let activity of data; let i=index;">
-        <th scope="row">{{ i+1 }}</th>
+        <th scope="row"><a target="_blank" href="https://www.strava.com/activities/{{activity.id}}">{{ i+1 }} </a></th>
         <td>{{activity.start_date_local | date :'short' }}</td>
         <td>{{activity.distance / 1000 | number:'1.0-1'}} </td>
       </tr>    
