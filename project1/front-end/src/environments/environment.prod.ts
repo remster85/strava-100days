@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  activitiesUrl: 'https://remstravaactivities.azurewebsites.net/api/ActivitiesFromStorage'
 };

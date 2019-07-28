@@ -13,6 +13,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ActivitiesHourHistogramComponent } from './my-charts/activities-hour-histogram/activities-hour-histogram.component';
 import { ActivitiesPerWeekDayComponent } from './my-charts/activities-weekday-piechart/activities-weekday-piechart.component';
 import { ChatbotComponent } from './chatbot/chatbot.component';
+import { ActivitiesDetailsComponent } from './activities-details/activities-details.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
     ActivitiesPerWeekDayComponent,
     ActivitiesHourHistogramComponent,
     ChatbotComponent,
+    ActivitiesDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +33,7 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
     TooltipModule.forRoot(),
     ModalModule.forRoot()
   ],
+  exports: [ActivitiesDetailsComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

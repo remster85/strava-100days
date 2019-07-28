@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import {HttpClient} from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-activities-hour-histogram',
@@ -8,10 +9,6 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./activities-hour-histogram.component.css']
 })
 export class ActivitiesHourHistogramComponent implements OnInit {
-
-
-
-  activitiesUrl = "https://remstravaactivities.azurewebsites.net/api/ActivitiesFromStorage";
 
   isChartLoading = true;
   show = false;
@@ -46,7 +43,7 @@ export class ActivitiesHourHistogramComponent implements OnInit {
     ];
 
     this.isChartLoading = true;
-    this.http.get(this.activitiesUrl)
+    this.http.get(environment.activitiesUrl)
         .subscribe((res:any) => 
         {
           this.isChartLoading = false;   
