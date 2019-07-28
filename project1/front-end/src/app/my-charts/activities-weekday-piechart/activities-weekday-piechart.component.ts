@@ -35,6 +35,11 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
         dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f}%'
+        },
+        point: {
+          events: {
+            select: this.onPointSelect.bind(this),
+          }
         }
     }
 }
