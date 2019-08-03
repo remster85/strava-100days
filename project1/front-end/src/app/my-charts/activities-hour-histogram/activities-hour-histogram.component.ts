@@ -71,8 +71,10 @@ export class ActivitiesHourHistogramComponent implements OnInit {
  }
 
   onPointSelect(event: any) { 
-    this.selectedHourActivities = this.data.filter(x => x.hour == event.point.category);
-    this.showActivitiesDetails = true;
+    this.showActivitiesDetails = !this.showActivitiesDetails;
+    if(this.showActivitiesDetails){
+      this.selectedHourActivities = this.data.filter(x => x.hour == event.point.category);
+    }
   }
 
   getPieChartData(res:any){
