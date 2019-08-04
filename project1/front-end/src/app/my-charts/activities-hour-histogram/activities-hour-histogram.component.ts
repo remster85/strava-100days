@@ -64,6 +64,7 @@ export class ActivitiesHourHistogramComponent implements OnInit {
 
   enrichDataWithHour(res : any){
     res.map(x => x['hour'] =  this.getHour(x.start_date_local));
+    res.map(x => x['start_date_local'] =  this.getLocalTime(x.start_date_local));
     return res;
  }
 
@@ -134,9 +135,15 @@ export class ActivitiesHourHistogramComponent implements OnInit {
     ]
  }
 
-  private getHour(dt : string) : number {
+  getHour(dt : string) : number {
     var hour = new Date(dt).getUTCHours();
     return hour;
+  }
+
+  getLocalTime(dt : string) : string {
+    var dtRecalculated = new Date(dt);
+    dtRecalculated.setHours(dtRecalculated.getHours() + 4);
+    return dtRecalculated.toString();
   }
 
   updateData(data : any){  

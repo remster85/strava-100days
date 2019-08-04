@@ -90,9 +90,16 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
     var date = new Date(dt);
     return this.getWeekDay(date);
   }
+
+  getLocalTime(dt : string) : string {
+    var dtRecalculated = new Date(dt);
+    dtRecalculated.setHours(dtRecalculated.getHours() + 4);
+    return dtRecalculated.toString();
+  }
   
    enrichDataWithWeekday(res : any){
       res.map(x => x['weekday'] =  this.getDay(x.start_date_local));
+      res.map(x => x['start_date_local'] =  this.getLocalTime(x.start_date_local));
       return res;
    }
 
