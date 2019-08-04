@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-activities-weekday-piechart',
@@ -17,6 +16,7 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
   show : boolean  = false;
   data : any[];
   showActivitiesDetails : boolean = false;
+  lastWeekDaySelected? : string;
   selectedWeekdayActivities: any[];
 
   Highcharts: typeof Highcharts = Highcharts;
@@ -35,14 +35,9 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
         dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f}%'
-        },
-        point: {
-          events: {
-            select: this.onPointSelect.bind(this),
-          }
         }
+      }
     }
-}
   };
   
 
@@ -55,7 +50,12 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
         cursor : 'pointer',
         data: [0,0,0,0,0,0,0],
         type: "pie",
-        id : 'weekday'
+        id : 'weekday',
+        point:{
+          events:{
+            click: this.onClickChart.bind(this)
+        }
+      }          
       }
     ];
 
@@ -71,10 +71,18 @@ export class ActivitiesPerWeekDayComponent implements OnInit {
      
    };
 
-  
-  onPointSelect(event: any) {  
-    this.selectedWeekdayActivities = this.data.filter(x => x.weekday == event.target.name);
-    this.showActivitiesDetails = true;
+  onClickChart(event){
+
+    if(this.lastWeekDaySelected == event.point.name && this.showActivitiesDetails || !this.showActivitiesDetails){  
+          this.showActivitiesDetails = !this.showActivitiesDetails;
+    }
+   
+    if(this.showActivitiesDetails){
+      this.selectedWeekdayActivities = this.data.filter(x => x.weekday == event.point.name);
+    }
+
+    this.lastWeekDaySelected = event.point.name;
+
   }
 
 
