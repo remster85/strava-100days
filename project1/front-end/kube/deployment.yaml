@@ -33,10 +33,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: remstrava-front
+    annotations:
+        service.beta.kubernetes.io/azure-dns-label-name: remstrava
+    name: remstrava-frontend
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-  selector:
-    app: remstrava-front
+    type: LoadBalancer
+    ports:
+    - port: 80
+    selector:
+        app: remstrava-front
