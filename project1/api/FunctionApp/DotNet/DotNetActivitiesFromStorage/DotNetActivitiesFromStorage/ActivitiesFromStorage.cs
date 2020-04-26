@@ -90,6 +90,10 @@ namespace DotNetActivitiesFromStorage
                 id = x.Id,
                 start_date_local = x.StartDateLocal,
                 distance = x.Distance,
+                type = x.Type,
+                workoutType = x.WorkoutType,
+                name = x.Name,
+                movingTime = x.MovingTime
             }));
 
             return new OkObjectResult(jsonOutput);

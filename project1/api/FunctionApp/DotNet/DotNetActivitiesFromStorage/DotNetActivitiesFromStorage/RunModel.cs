@@ -31,7 +31,7 @@
         public double TotalElevationGain { get; set; }
 
         [JsonProperty("type")]
-        public TypeEnum Type { get; set; }
+        public string Type { get; set; }
 
         [JsonProperty("workout_type")]
         public long? WorkoutType { get; set; }
@@ -114,9 +114,6 @@
         [JsonProperty("flagged")]
         public bool Flagged { get; set; }
 
-        [JsonProperty("gear_id")]
-        public GearId? GearId { get; set; }
-
         [JsonProperty("from_accepted_tag")]
         public bool? FromAcceptedTag { get; set; }
 
@@ -197,8 +194,6 @@
 
     public enum Timezone { Gmt0100EuropeAmsterdam, Gmt0100EuropeBudapest, Gmt0100EuropeParis, Gmt0100EuropeRome, Gmt0100EuropeVienna, Gmt0500AmericaNewYork, Gmt0700AsiaHoChiMinh, Gmt0800AmericaLosAngeles, Gmt0800AsiaKualaLumpur };
 
-    public enum TypeEnum { Crossfit, Hike, Ride, Run, VirtualRun, Workout };
-
     public enum Visibility { Everyone };
 
     internal static class Converter
@@ -211,7 +206,6 @@
             {
                 GearIdConverter.Singleton,
                 TimezoneConverter.Singleton,
-                TypeEnumConverter.Singleton,
                 VisibilityConverter.Singleton,
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
@@ -333,67 +327,6 @@
         }
 
         public static readonly TimezoneConverter Singleton = new TimezoneConverter();
-    }
-
-    internal class TypeEnumConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(TypeEnum) || t == typeof(TypeEnum?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            switch (value)
-            {
-                case "Crossfit":
-                    return TypeEnum.Crossfit;
-                case "Hike":
-                    return TypeEnum.Hike;
-                case "Ride":
-                    return TypeEnum.Ride;
-                case "Run":
-                    return TypeEnum.Run;
-                case "VirtualRun":
-                    return TypeEnum.VirtualRun;
-                case "Workout":
-                    return TypeEnum.Workout;
-            }
-            throw new Exception("Cannot unmarshal type TypeEnum");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            if (untypedValue == null)
-            {
-                serializer.Serialize(writer, null);
-                return;
-            }
-            var value = (TypeEnum)untypedValue;
-            switch (value)
-            {
-                case TypeEnum.Crossfit:
-                    serializer.Serialize(writer, "Crossfit");
-                    return;
-                case TypeEnum.Hike:
-                    serializer.Serialize(writer, "Hike");
-                    return;
-                case TypeEnum.Ride:
-                    serializer.Serialize(writer, "Ride");
-                    return;
-                case TypeEnum.Run:
-                    serializer.Serialize(writer, "Run");
-                    return;
-                case TypeEnum.VirtualRun:
-                    serializer.Serialize(writer, "VirtualRun");
-                    return;
-                case TypeEnum.Workout:
-                    serializer.Serialize(writer, "Workout");
-                    return;
-            }
-            throw new Exception("Cannot marshal type TypeEnum");
-        }
-
-        public static readonly TypeEnumConverter Singleton = new TypeEnumConverter();
     }
 
     internal class VisibilityConverter : JsonConverter
