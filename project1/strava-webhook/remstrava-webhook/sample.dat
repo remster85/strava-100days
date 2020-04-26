@@ -1,0 +1,5 @@
+{
+    "hub.challenge": "Azure",
+    "hub.mode": "Azure",
+    "verify_token": "Azure"
+}
