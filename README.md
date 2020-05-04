@@ -1,7 +1,7 @@
 # strava-100days
 My 100 days of code challenge around the strava api  
 
-Visit http://remstrava.azurewebsites.net   :clap:
+Visit http://remstrava.westus.cloudapp.azure.com   :clap:
 
 
 ## Project #1  
